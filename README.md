@@ -2,4 +2,4 @@
 
 This repository is meant to show the functionality of Event Driven Ansible (EDA).
 
-These rulebooks leverage Job Templates 
+These rulebooks leverage Job Templates on my [Ansible Demo](https://github.com/deperr/ansible-demos) repository.
