@@ -1,0 +1,30 @@
+---
+
+- name: Listen for events on a webhook
+  hosts: all
+  ## Define our source for events
+  sources:
+    - ansible.eda.url_check:
+        verify_ssl: false
+        urls:
+          - http://web01.dperrone.dev:8081
+        delay: 10
+
+  rules:
+
+    # - name: Check that Web site is up
+    #   condition: event.url_check.status == "up"
+    #   action:
+    #     debug:
+    #       msg: "Site is up"
+
+    - name: Trigger automation to fix issue
+      condition: event.url_check.status == "down"
+      actions:
+        - debug:
+            msg: "Site {{ event.url_check.url }} is DOWN - triggering remediation for {{ event.url_check.url.split('//')[1].split(':')[0] }}"
+        - run_job_template:
+            name: "EDA | Fix Web Service"
+            organization: "Default"
+            job_args:
+              limit: "{{ event.url_check.url.split('//')[1].split(':')[0] }}"
