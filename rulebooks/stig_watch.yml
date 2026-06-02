@@ -17,26 +17,6 @@
     #     debug:
     #       msg: "RAW AAP EVENT PAYLOAD: {{ event }}"
 
-    # - name: Detect activity on /etc/shadow
-    #   condition: >
-    #     event.body.log.file.path == "/var/log/audit/audit.log"
-    #     and event.body.message is search("shadow|fstab|sshd_config|hosts")
-    #   # condition: event.body.message is search("shadow|fstab|sshd_config|hosts")
-    #   # Change 'action' to 'actions' to accept a list of tasks
-    #   actions:
-    #     # 1. Print a custom debug message to the EDA Activation History log
-    #     - debug:
-    #         msg: "MATCH FOUND! STIG violation detected on {{ event.body.host.name }}. Launching remediation job..."
-
-    #         # 2. Fire the Job Template in Automation Controller
-    #     - run_job_template:
-    #         name: "EDA | STIG Remediation"
-    #         organization: "Default"
-    #         job_args:
-    #           extra_vars:
-    #             target_server: "{{ event.body.host.name }}"
-    #             offending_message: "{{ event.body.message }}"
-
     - name: Detect activity on Protected Files
       condition: >
         event.body.log.file.path == "/var/log/audit/audit.log"
